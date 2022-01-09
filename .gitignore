@@ -11,3 +11,4 @@
 .rspec_status
 .byebug_history
 config.json
+test_transactions.csv
