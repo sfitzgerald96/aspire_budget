@@ -40,6 +40,14 @@ module AspireBudget
       end
 
       def add_transactions(transactions)
+        # TODO: Make sure you start on a blank row. Right now you're wiping out your stuff
+        byebug
+        # TODO: Read the above Comment!
+        byebug
+        # TODO: Don't do this!
+        byebug
+        # TODO: Fine.... It's your loss
+        byebug
         transactions.each do |transaction|
           AspireBudget.logger.debug "Syncing: #{transaction.uuid}"
 
