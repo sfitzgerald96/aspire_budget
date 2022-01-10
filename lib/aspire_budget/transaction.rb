@@ -14,7 +14,7 @@ module AspireBudget
       @uuid = uuid
     end
 
-    def self.get_transactions_from_csv(csv)
+    def self.from_csv(csv)
       transactions = []
       file = File.open(csv, 'r:UTF-8')
       line = nil
@@ -22,7 +22,7 @@ module AspireBudget
       begin
         while line = file.gets
           AspireBudget.logger.debug "Reading: #{line}"
-          transaction = self.from_csv_format(line.strip) if line
+          transaction = self.from_csv_line(line.strip) if line
           transactions << transaction if line && transaction
         end
       rescue
@@ -32,11 +32,11 @@ module AspireBudget
       return transactions
     end
 
-    def self.from_csv_format(line)
+    def self.from_csv_line(line)
       parts = line.split(',')
       return nil if parts.length != 8
 
-      t = Transaction.new(
+      return Transaction.new(
         date: DateTime.strptime(parts[0], "%d-%b"),
         outflow: parts[1].gsub("$",'').gsub(',', '').to_f,
         inflow: parts[2].gsub("$",'').gsub(',', '').to_f,
@@ -46,7 +46,6 @@ module AspireBudget
         status: parts[6],
         uuid: parts[7]
       )
-      return t
     end
   end
 end

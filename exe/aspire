@@ -1,0 +1,4 @@
+#!/usr/bin/env ruby
+
+require 'aspire_budget'
+AspireBudget::CLI.start

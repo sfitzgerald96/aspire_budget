@@ -17,10 +17,8 @@ module AspireBudget
                   :description_column, :status_column, :id_column, :starting_transaction_row,
                   :datastore, :current_row
 
-      def initialize(client:, **args)
-        @transaction_file = "test_transactions.csv"
-        @client = client
-        @sheet = @client.spreadsheet.worksheet_by_title('Transactions')
+      def initialize(client, **args)
+        @sheet = client.spreadsheet.worksheet_by_title('Transactions')
         @date_column = (args[:date_column] || 2).to_i
         @outflow_column = (args[:outflow_column] || 3).to_i
         @inflow_column = (args[:inflow_column] || 4).to_i
@@ -39,15 +37,17 @@ module AspireBudget
         @current_row += count
       end
 
+      def find_next_blank_row()
+        return @sheet.rows.count + 1
+      end
+
       def add_transactions(transactions)
-        # TODO: Make sure you start on a blank row. Right now you're wiping out your stuff
-        byebug
-        # TODO: Read the above Comment!
-        byebug
-        # TODO: Don't do this!
-        byebug
-        # TODO: Fine.... It's your loss
-        byebug
+        @current_row = find_next_blank_row
+
+        # transactions.reject! do |transaction|
+        #   transaction.
+        # end
+
         transactions.each do |transaction|
           AspireBudget.logger.debug "Syncing: #{transaction.uuid}"
 

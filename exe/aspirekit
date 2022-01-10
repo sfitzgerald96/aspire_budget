@@ -1,5 +1,0 @@
-#!/usr/bin/env ruby
-
-print "nothing."
-# require 'aspire_budget'
-# puts 'hello!'

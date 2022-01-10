@@ -35,9 +35,11 @@ Gem::Specification.new do |spec|
   spec.files.reject! { |fn| fn.include? "CVS" }
 
   spec.bindir        = "exe"
-  spec.executables   = spec.files.grep(%r{^exe/}) { |f| File.basename(f) }
+  spec.executables   = ["aspire"]
   spec.require_paths = ["lib"]
 
+  spec.add_development_dependency "byebug"
+
   spec.add_dependency "google_drive"
-  spec.add_dependency "byebug"
+  spec.add_dependency "thor"
 end
