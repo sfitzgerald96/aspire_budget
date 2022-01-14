@@ -44,11 +44,8 @@ module AspireBudget
       def add_transactions(transactions)
         @current_row = find_next_blank_row
 
-        # transactions.reject! do |transaction|
-        #   transaction.
-        # end
-
         transactions.each do |transaction|
+          next if transaction.nil? || @datastore[transaction.uuid]
           AspireBudget.logger.debug "Syncing: #{transaction.uuid}"
 
           @sheet[@current_row, @date_column] = transaction.date.strftime("%d-%b")
