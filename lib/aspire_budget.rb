@@ -2,14 +2,17 @@
 require "google_drive"
 require "byebug"
 require 'json'
+require "thor"
 
 # base files
 require "aspire_budget/version"
 require "aspire_budget/client"
 require "aspire_budget/transaction"
 require "aspire_budget/colorize"
-require "aspire_budget/cli"
 require "aspire_budget/authorization"
+
+require "aspire_budget/cli/subcommands/transactions"
+require "aspire_budget/cli/aspire"
 
 # worksheet files
 require "aspire_budget/worksheet/sheet"
@@ -18,7 +21,7 @@ require "aspire_budget/worksheet/configuration_sheet"
 require "aspire_budget/worksheet/category_transfer_sheet"
 
 module AspireBudget
-  CONFIG_PATH = 'test.json'
+  CONFIG_PATH = File.join(Dir.home, ".aspire", "config.json")
 
   module ConfigKeys
     CLIENT_ID = "client_id"

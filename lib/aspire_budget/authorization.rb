@@ -7,8 +7,12 @@ module AspireBudget
         config = Hash.new
         if File.exist?(AspireBudget::CONFIG_PATH)
           config = JSON.parse(File.read(AspireBudget::CONFIG_PATH))
+        else
+          FileUtils.mkdir_p(File.split(AspireBudget::CONFIG_PATH).first)
+          FileUtils.touch(AspireBudget::CONFIG_PATH)
         end
 
+        puts "For help configuring the Aspire CLI, read the README #TODO: ADD LINK"
         print "Google Sheet ID #{mask_config_value(config, ConfigKeys::GOOGLE_SHEET_ID)}: "
         google_sheet_id = get_user_input_for(config, ConfigKeys::GOOGLE_SHEET_ID)
 
