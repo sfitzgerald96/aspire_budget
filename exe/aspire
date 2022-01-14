@@ -1,4 +1,20 @@
 #!/usr/bin/env ruby
 
 require 'aspire_budget'
-AspireBudget::CLI.start
+
+help_commands = Thor::HELP_MAPPINGS + ["help"]
+# => ["-h", "-?", "--help", "-D"]
+
+if help_commands.any? { |cmd| ARGV.include? cmd }
+  help_commands.each do |cmd|
+    if match = ARGV.delete(cmd)
+      ARGV.unshift match # Make "help" be first command
+    end
+  end
+end
+
+unless File.exist?(AspireBudget::CONFIG_PATH)
+  AspireBudget::Authorization.prompt_user_for_config
+end 
+
+AspireBudget::CLI::Aspire.start
