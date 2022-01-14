@@ -56,10 +56,10 @@ module AspireBudget
           @sheet[@current_row, @description_column] = transaction.description
           @sheet[@current_row, @status_column] = transaction.status
           @sheet[@current_row, @id_column] = transaction.uuid
-          @sheet.save
 
           increment_current_row
         end
+        @sheet.save
       end
 
       private
