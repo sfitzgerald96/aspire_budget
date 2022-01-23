@@ -23,17 +23,22 @@ module AspireBudget
         return @sheet.rows.count + 1
       end
 
+      def transfer_available_to(category, amount, memo="")
+        @current_row = find_next_blank_row
+        @sheet[@current_row, COLUMNS::DATE] = Time.now.strftime("%m/%d/%Y")
+        @sheet[@current_row, COLUMNS::AMOUNT] = amount
+        @sheet[@current_row, COLUMNS::FROM_CATEGORY] = "Available to budget"
+        @sheet[@current_row, COLUMNS::TO_CATEGORY] = category.name
+        @sheet[@current_row, COLUMNS::MEMO] = memo
+      end
+
       def allocate(frequency, categories)
         @current_row = find_next_blank_row
         categories.each do |category|
           next if category.monthly_amount.zero?
           multiplier = frequency == "semi" ? 0.5 : 1
-          @sheet[@current_row, COLUMNS::DATE] = Time.now.strftime("%m/%d/%Y")
-          @sheet[@current_row, COLUMNS::AMOUNT] = (category.monthly_amount * multiplier).ceil(2)
-          @sheet[@current_row, COLUMNS::FROM_CATEGORY] = "Available to budget"
-          @sheet[@current_row, COLUMNS::TO_CATEGORY] = category.name
-          @sheet[@current_row, COLUMNS::MEMO] = frequency
-          increment_current_row
+          amount = (category.monthly_amount * multiplier).ceil(2)
+          transfer_available_to(category, amount, frequency)
         end
         @sheet.save
       end

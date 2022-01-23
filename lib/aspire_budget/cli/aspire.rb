@@ -37,6 +37,20 @@ module AspireBudget
         cat_transfer_worksheet.allocate(options[:frequency], config_worksheet.categories)
       end
 
+      desc "fund_overspent", "Makes a category transfer from available to budget to overspent categories"
+      def fund_overspent()
+        AspireBudget.logger.info("Funding overspent categories...")
+        client = AspireBudget::Client.new
+        dashboard = AspireBudget::Worksheet::Dashboard.new(client)
+        cat_transfer_worksheet = AspireBudget::Worksheet::CategoryTransferSheet.new(client)
+        dashboard.overspent_categories.each do |category|
+          amount_to_transfer = category.money_available * -1
+          cat_transfer_worksheet.transfer_available_to(category, amount_to_transfer, "Fill overspent category")
+        end
+        cat_transfer_worksheet.sheet.save
+      end
+
+
       desc "transactions SUBCOMMAND ...ARGS", "Module for interacting with the Transactions Spreadsheet"
       subcommand "transactions", Transactions
     end

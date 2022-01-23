@@ -17,6 +17,7 @@ require "aspire_budget/cli/aspire"
 
 # worksheet files
 require "aspire_budget/worksheet/sheet"
+require "aspire_budget/worksheet/dashboard"
 require "aspire_budget/worksheet/transaction_sheet"
 require "aspire_budget/worksheet/configuration_sheet"
 require "aspire_budget/worksheet/category_transfer_sheet"
