@@ -2,12 +2,13 @@ module AspireBudget
   module Worksheet
     class Dashboard < Sheet
       module COLUMNS
+        CATEGORY_SYMBOL = 5
         CATEGORY_NAME = 7
         AVAILABLE = 8
       end
 
       module ROWS 
-        STARTING_CATEGORY = 6
+        STARTING_CATEGORY = 5
       end
 
       attr_reader :sheet
@@ -19,6 +20,7 @@ module AspireBudget
         categories = []
         @sheet.rows[ROWS::STARTING_CATEGORY..-1].each do |row|
           next if row[COLUMNS::CATEGORY_NAME].empty?
+          next if row[COLUMNS::CATEGORY_SYMBOL] == AspireBudget::UNICODE_CHARACTERS::GROUP
           category = AspireBudget::Category.new
           category.name = row[COLUMNS::CATEGORY_NAME]
           category.money_available = row[COLUMNS::AVAILABLE]

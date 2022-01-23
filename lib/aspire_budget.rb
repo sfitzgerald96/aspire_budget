@@ -25,6 +25,13 @@ require "aspire_budget/worksheet/category_transfer_sheet"
 module AspireBudget
   CONFIG_PATH = File.join(Dir.home, ".aspire", "config.json")
 
+  module UNICODE_CHARACTERS
+    GROUP = "\u2726"
+    CATEGORY = "\u2727"
+    BOMB_BLAST = "\u203b"
+    CREDIT_CARD = "\u25d8"
+  end
+
   module ConfigKeys
     CLIENT_ID = "client_id"
     CLIENT_SECRET = "client_secret"
