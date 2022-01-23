@@ -6,6 +6,7 @@ require "thor"
 
 # base files
 require "aspire_budget/version"
+require "aspire_budget/category"
 require "aspire_budget/client"
 require "aspire_budget/transaction"
 require "aspire_budget/colorize"

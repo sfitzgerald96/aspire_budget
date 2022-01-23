@@ -21,6 +21,22 @@ module AspireBudget
         AspireBudget::Authorization.prompt_user_for_config
       end
 
+      desc "configuration SUBCOMMAND ...ARGS", "Module for interacting with the Transactions Spreadsheet"
+      def configuration
+        client = AspireBudget::Client.new
+        AspireBudget::Worksheet::ConfigurationSheet.new(client)
+      end
+
+      desc "allocate --frequency=\"semi\"", "Adds category transfers from Available to budget to categories"
+      option :frequency, :type => :string, :default => "semi", :aliases => ["-f"], :banner => "\"semi\", \"monthly\""
+      def allocate()
+        AspireBudget.logger.info("Making Category Transfers...")
+        client = AspireBudget::Client.new
+        config_worksheet = AspireBudget::Worksheet::ConfigurationSheet.new(client)
+        cat_transfer_worksheet = AspireBudget::Worksheet::CategoryTransferSheet.new(client)
+        cat_transfer_worksheet.allocate(options[:frequency], config_worksheet.categories)
+      end
+
       desc "transactions SUBCOMMAND ...ARGS", "Module for interacting with the Transactions Spreadsheet"
       subcommand "transactions", Transactions
     end
