@@ -17,8 +17,19 @@ module AspireBudget
 
           --->Refresh Token: Can either be a session that lasts forever, or a session that lasts for only 1-hour.
       LONGDESC
+      option :client_id, :type => :string, :default => ""
+      option :client_secret, :type => :string, :default => ""
+      option :refresh_token, :type => :string, :default => ""
+      option :google_sheet_id, :type => :string, :default => ""
       def configure
-        AspireBudget::Authorization.prompt_user_for_config
+        if options[:client_id].empty? || options[:client_secret].empty? || options[:refresh_token].empty? || options[:google_sheet_id].empty?
+          AspireBudget::Authorization.prompt_user_for_config
+        else
+          credentials = {}
+          credentials[ConfigKeys::CLIENT_ID] = options[:client_id]
+          credentials[ConfigKeys::CLIENT_SECRET] = options[:client_secret]
+          AspireBudget::Authorization.generate_config(credentials, options[:refresh_token], options[:google_sheet_id])
+        end
       end
 
       desc "configuration SUBCOMMAND ...ARGS", "Module for interacting with the Transactions Spreadsheet"

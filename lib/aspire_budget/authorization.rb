@@ -24,7 +24,11 @@ module AspireBudget
 
         print "Would you like a session that lasts indefinitely? (Y/n) "
         refresh_token = get_user_input_for(config, ConfigKeys::REFRESH_TOKEN, credentials)
-  
+
+        generate_config(credentials, refresh_token, google_sheet_id)
+      end
+
+      def generate_config(credentials, refresh_token, google_sheet_id)
         config = {
           ConfigKeys::CLIENT_ID => credentials[ConfigKeys::CLIENT_ID],
           ConfigKeys::CLIENT_SECRET => credentials[ConfigKeys::CLIENT_SECRET],
